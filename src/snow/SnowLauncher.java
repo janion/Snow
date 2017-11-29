@@ -16,67 +16,69 @@ import javafx.stage.StageStyle;
  */
 public class SnowLauncher extends Application {
 
-	private static final String PRIMARY_ONLY = "primary_only";
+    private static final String PRIMARY_ONLY = "primary_only";
 
-   @Override
-   public void start(Stage unused) throws Exception {
-		  
-	  Parameters args = getParameters();
-	  if (args.getUnnamed().contains(PRIMARY_ONLY)) {
-		  createSnowForScreen(Screen.getPrimary());
-	  } else {
-	      for (Screen screen : Screen.getScreens()) {
-	    	  createSnowForScreen(screen);
-	      }
-	  }
-	  createCloseButtonForStage();
-   }
+    @Override
+    public void start(Stage unused) throws Exception {
 
-	private void createSnowForScreen(Screen screen) {
-		Stage stage = new Stage();
+        SnowParameters snowParameters = new SnowParameters();
 
-		Pane pane = new Pane();
-		Canvas canvas = new SnowPanel().getCanvas();
-		canvas.widthProperty().bind(pane.widthProperty());
-		canvas.heightProperty().bind(pane.heightProperty());
-		pane.getChildren().add(canvas);
-		Scene scene = new Scene(pane);
-		scene.setFill(Color.TRANSPARENT);
-		stage.setScene(scene);
+        Parameters args = getParameters();
+        if (args.getUnnamed().contains(PRIMARY_ONLY)) {
+            createSnowForScreen(Screen.getPrimary(), snowParameters);
+        } else {
+            for (Screen screen : Screen.getScreens()) {
+                createSnowForScreen(screen, snowParameters);
+            }
+        }
+        createCloseButtonForStage();
+    }
 
-		Rectangle2D bounds = screen.getBounds();
-		stage.setX(bounds.getMinX());
-		stage.setY(bounds.getMinY());
-		stage.setWidth(bounds.getWidth());
-		stage.setHeight(bounds.getHeight());
+    private void createSnowForScreen(Screen screen, SnowParameters snowParameters) {
+        Stage stage = new Stage();
 
-		stage.setAlwaysOnTop(true);
-		stage.initStyle(StageStyle.TRANSPARENT);
-		stage.show();
-	}
+        Pane pane = new Pane();
+        Canvas canvas = new SnowPanel(snowParameters).getCanvas();
+        canvas.widthProperty().bind(pane.widthProperty());
+        canvas.heightProperty().bind(pane.heightProperty());
+        pane.getChildren().add(canvas);
+        Scene scene = new Scene(pane);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
 
-	private void createCloseButtonForStage() {
-		Stage stage = new Stage();
+        Rectangle2D bounds = screen.getBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
 
-		Pane pane = new Pane();
-		BorderPane closeButton = new CloseButtonForStage().getNode();
-		pane.getChildren().add(closeButton);
-		
-		Scene scene = new Scene(pane);
-		scene.setFill(Color.TRANSPARENT);
-		stage.setScene(scene);
+        stage.setAlwaysOnTop(true);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.show();
+    }
 
-		Rectangle2D bounds = Screen.getPrimary().getBounds();
-		stage.setX(bounds.getMinX());
-		stage.setY(bounds.getMinY());
+    private void createCloseButtonForStage() {
+        Stage stage = new Stage();
 
-		stage.setAlwaysOnTop(true);
-		stage.initStyle(StageStyle.TRANSPARENT);
-		stage.show();
-	}
+        Pane pane = new Pane();
+        BorderPane closeButton = new CloseButtonForStage().getNode();
+        pane.getChildren().add(closeButton);
 
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+        Scene scene = new Scene(pane);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+
+        Rectangle2D bounds = Screen.getPrimary().getBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+
+        stage.setAlwaysOnTop(true);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 
 }
