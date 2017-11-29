@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import snow.configure.CloseButtonForStage;
 
 /**
  * Main launcher class for the workbench.
@@ -31,7 +32,7 @@ public class SnowLauncher extends Application {
                 createSnowForScreen(screen, snowParameters);
             }
         }
-        createCloseButtonForStage();
+        createCloseButtonForStage(snowParameters);
     }
 
     private void createSnowForScreen(Screen screen, SnowParameters snowParameters) {
@@ -57,11 +58,11 @@ public class SnowLauncher extends Application {
         stage.show();
     }
 
-    private void createCloseButtonForStage() {
+    private void createCloseButtonForStage(SnowParameters snowParameters) {
         Stage stage = new Stage();
 
         Pane pane = new Pane();
-        BorderPane closeButton = new CloseButtonForStage().getNode();
+        BorderPane closeButton = new CloseButtonForStage(snowParameters).getNode();
         pane.getChildren().add(closeButton);
 
         Scene scene = new Scene(pane);
